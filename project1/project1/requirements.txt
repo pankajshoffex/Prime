@@ -1,0 +1,10 @@
+Django==1.9.5
+django-easy-pdf==0.1.0
+django-widget-tweaks==1.4.1
+html5lib==0.9999999
+num2words==0.5.3
+Pillow==3.2.0
+PyPDF2==1.25.1
+reportlab==2.7
+six==1.10.0
+xhtml2pdf==0.0.6

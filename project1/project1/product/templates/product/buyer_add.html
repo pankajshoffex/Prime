@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block jquery %}
+<script>
+        // $(function() {
+        //     $(".inline.{{ product_form.prefix }}").formset({
+        //        addText: "<button id='add-r' class='btn btn-info'>Add</button>",
+        //        deleteText: "<button class='btn btn-default btn-sm'><i class='fa fa-trash-o'></i></button>",
+        //        prefix: "{{ product_form.prefix }}"
+        //     });
+        // });
+        $('.add-row').click(function() {
+	        console.log('add')
+	        return addForm(this, '{{ formset.prefix }}');
+	    });
+	    $('.delete-row').click(function() {
+	        console.log('delete')
+	        return deleteForm(this, '{{ formset.prefix }}');
+	    });
+</script>
+{% endblock jquery %}
+
+{% block content %}
+<br>
+<div style="background-color: white;padding: 10px;">
+	<h4>Add Buyer</h4>
+	<form action="." method="post">{% csrf_token %}
+	<table class="table table-hover">
+	<tr>
+		<th>{{ form.name.label_tag }}</th>
+		<th>{{ form.vat_tin_no.label_tag }}</th>
+		<th>{{ form.po_no.label_tag }}</th>
+	</tr>
+	<tr>
+		<td>
+		{{ form.name.errors }}
+		
+		{{ form.name|add_class:"form-control" }}
+		</td>
+		<td>
+		{{ form.vat_tin_no.errors }}
+		
+		{{ form.vat_tin_no|add_class:"form-control" }}	
+		</td>
+		<td>
+		{{ form.po_no.errors }}
+		
+		{{ form.po_no|add_class:"form-control" }}	
+		</td>
+	</tr>
+	</table>
+</div>
+<br/>
+<div style="background-color: white;padding: 10px;">
+	<fieldset style="background-color: ">
+		<legend><h4>Product Information</h4></legend>
+		<table class="table table-hover">
+		<tbody id="invoice_table_body">
+			<tr>
+				<th>SN</th>
+				<th>DESCRIPTION:</th>
+				<th>QTY:</th>
+				<th>PER:</th>
+				<th>RATE:</th>
+				<th>AMOUNT:</th>
+			</tr>
+		{{ formset.management_form }}
+        {% for form in formset.forms %}
+			<tr id="{{ form.prefix }}-row" class="dynamic-form">
+					<td>
+						
+					</td>
+					<td>
+						{{ form.description.errors }}
+						<!-- {{ form.description.label_tag }} -->
+						{{ form.description|add_class:"form-control" }}
+					</td>
+					<td>
+						{{ form.qty.errors }}
+						<!-- {{ form.qty.label_tag }} -->
+						{{ form.qty|add_class:"form-control" }}
+					</td>
+					<td>
+						{{ form.per.errors }}
+						<!-- {{ form.per.label_tag }} -->
+						{{ form.per|add_class:"form-control" }}
+					</td>
+					<td>
+						{{ form.rate.errors }}
+						<!-- {{ form.rate.label_tag }} -->
+						{{ form.rate|add_class:"form-control" }}
+					</td>
+					<td>
+						{{ form.amount.errors }}
+						<!-- {{ form.amount.label_tag }} -->
+						{{ form.amount|add_class:"form-control" }}
+					</td>
+					<td>
+                        <a id="remove-{{ form.prefix }}-row" href="javascript:void(0)"
+                           class="delete-row btn btn-default btn-sm">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                    </td>		
+				</tr>
+				<!-- <script src="{% static 'js/jquery.min.js' %}"></script>
+				<script>
+				$("#{{ form.rate.auto_id }}").change(function(){
+		        	var qty = $("#{{ form.qty.auto_id }}").val();
+		        	var rate = $(this).val();
+		        	console.log(rate * qty);
+		        	$("#{{ form.amount.auto_id }}").val(rate * qty);
+		        });
+				</script> -->
+		{% endfor %}
+		</tbody>
+		<tr id="last-tr">
+            <td></td>
+            <td colspan="5">
+                <center><a href="javascript:void(0)" class="add-row">add property</a></center>
+            </td>
+
+        </tr>
+        
+	    </table>
+	</fieldset>
+</div>
+<br/>
+<div>
+	<input type="submit" value="Add Buyer" class="btn btn-success btn-block" />
+</div>
+	
+</form>
+{% endblock content %}
